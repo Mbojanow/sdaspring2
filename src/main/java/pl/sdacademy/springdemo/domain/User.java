@@ -26,7 +26,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private List<Role> roles = new ArrayList<>();
 }
