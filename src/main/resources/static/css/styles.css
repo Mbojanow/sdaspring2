@@ -1,0 +1,15 @@
+.main {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    width: 50%;
+}
+
+.user-form {
+    display: flex;
+    flex-flow: column;
+}
+
+.user {
+    padding: 2rem;
+}

@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-$END$
+    <div class="main">
+        <div class="users">
+            <div class="user" th:each="user: ${users}">
+                <p th:text="${user.username} + ' has roles ' + ${user.roles}"></p>
+                <form method="POST" th:action="@{/users/remove/__${user.username}__}">
+                    <button value="Delete" type="submit">Delete</button>
+                </form>
+
+                <div th:each="role: ${roles}">
+                    <form method="POST" th:action="@{/users/__${user.username}__/roles/__${role.name}__}">
+                        <button th:text="'Add role ' + ${role.name}" type="submit"></button>
+                    </form>
+                </div>
+
+                <a th:href="@{/users/edit/__${user.username}__}">Edit</a>
+            </div>
+        </div>
+
+        <form class="user-form" th:object="${userForm}" th:method="post" th:action="@{/users}">
+            <label th:for="username">Username</label>
+            <input id="username" th:type="text" th:field="*{username}"/>
+
+            <label th:for="password">Password</label>
+            <input id="password" th:type="password" th:field="*{password}">
+
+            <label th:for="confirmPassword">Confirm password</label>
+            <input id="confirmPassword" th:type="password" th:field="*{confirmPassword}">
+            <input th:type="submit" value="Create user"/>
+        </form>
+    </div>
+
 </body>
 </html>
