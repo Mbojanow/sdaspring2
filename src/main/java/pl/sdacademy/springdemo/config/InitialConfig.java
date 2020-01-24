@@ -2,7 +2,6 @@ package pl.sdacademy.springdemo.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +24,14 @@ public class InitialConfig implements CommandLineRunner {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UsersConfig usersConfig;
+
     @Override
     @Transactional
     public void run(final String... args) {
         roleRepository.save(new Role("USER"));
-        final Role admin = roleRepository.save(new Role("ADMIN"));
-        userRepository.save(new User("admin", passwordEncoder.encode("admin")));
+        final Role admin = roleRepository.save(new Role("ROLE_ADMIN"));
+        userRepository.save(new User("admin", passwordEncoder.encode("admin"), List.of(admin)));
     }
 }

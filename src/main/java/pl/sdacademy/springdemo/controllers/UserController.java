@@ -1,5 +1,7 @@
 package pl.sdacademy.springdemo.controllers;
 
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -12,15 +14,18 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/users")
+@Secured("ROLE_ADMIN")
 public class UserController {
 
     private final UserService userService;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
-    public UserController(final UserService userService, final RoleRepository roleRepository) {
+    public UserController(final UserService userService, final RoleRepository roleRepository, final PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
@@ -33,7 +38,7 @@ public class UserController {
 
     @PostMapping
     public String saveNewUser(@Valid @ModelAttribute final UserForm userForm, final ModelMap modelMap) {
-        userService.create(new User(userForm.getUsername(), userForm.getPassword()));
+        userService.create(new User(userForm.getUsername(), passwordEncoder.encode(userForm.getPassword())));
         return getUsersList(modelMap);
     }
 
@@ -52,7 +57,7 @@ public class UserController {
 
     @PostMapping(path = "/edit/{username}")
     public String updateUser(@PathVariable final String username, @Valid @ModelAttribute final UserForm userForm, final ModelMap modelMap) {
-        userService.update(username, new User(username, userForm.getPassword()));
+        userService.update(username, new User(username, passwordEncoder.encode(userForm.getPassword())));
         return getUsersList(modelMap);
     }
 
