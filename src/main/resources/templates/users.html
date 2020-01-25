@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <div class="main-container">
+    <div class="users">
+      <div th:each="user : ${users}">
+        <p th:text="'User name is ' + ${user.username} + ' and email is ' + ${user.email}"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="user-form">
+    <form method="post" th:object="${userForm}" th:action="@{/users/add}">
+      <label for="username">Username</label>
+      <input id="username" th:value="*{username}"/>
+
+      <label for="email">Email</label>
+      <input id="email" th:value="*{email}"/>
+
+      <label for="password">Password</label>
+      <input id="password" type="password" th:value="*{password}"/>
+
+      <label for="passwordConfirmation">Confirm Password</label>
+      <input id="passwordConfirmation" th:value="*{confirmPassword}"/>
+
+      <button type="submit">Create User</button>
+    </form>
+  </div>
+
+</body>
+</html>
