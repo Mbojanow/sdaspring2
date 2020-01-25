@@ -6,7 +6,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import pl.sdacademy.springdemo.domain.Role;
 import pl.sdacademy.springdemo.domain.User;
+import pl.sdacademy.springdemo.repositories.RoleRepository;
 import pl.sdacademy.springdemo.repositories.UserRepository;
 
 @Component
@@ -14,14 +16,26 @@ import pl.sdacademy.springdemo.repositories.UserRepository;
 public class UsersBootstraper implements CommandLineRunner {
 
   private final UserRepository userRepository;
+  private final RoleRepository roleRepository;
 
-  public UsersBootstraper(final UserRepository userRepository) {
+  public UsersBootstraper(final UserRepository userRepository, final RoleRepository roleRepository) {
     this.userRepository = userRepository;
+    this.roleRepository = roleRepository;
   }
 
   @Override
   public void run(final String... args) throws Exception {
-    final User user = new User("admin", "admin@admins.com", "admin", List.of());
+    final Role role = new Role("ROLE_ADMIN");
+    roleRepository.save(role);
+
+    final Role roleUser = new Role("ROLE_USER");
+    roleRepository.save(roleUser);
+
+    final Role roleOther = new Role("ROLE_OTHER");
+    roleRepository.save(roleOther);
+
+    final User user = new User("admin", "admin@admins.com", "admin", List.of(),
+        List.of(role));
     userRepository.save(user);
   }
 }

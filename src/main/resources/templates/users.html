@@ -12,6 +12,12 @@
         <div th:each="role: ${user.roles}">
           <p th:text="'Role granted ' + ${role.name}"></p>
         </div>
+        <div th:each="role: ${user.nonAssignedRoles}">
+          <form method="post" th:action="@{/users/__${user.username}__/roles/__${role.name}__}">
+            <button type="submit" th:text="'Add role ' + ${role.name}"></button>
+          </form>
+        </div>
+
         <form method="post" th:action="@{/users/remove/__${user.username}__}">
           <button type="submit">DELETE FOREVER</button>
         </form>

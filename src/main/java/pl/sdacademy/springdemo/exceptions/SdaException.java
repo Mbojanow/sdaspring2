@@ -1,6 +1,7 @@
 package pl.sdacademy.springdemo.exceptions;
 
 public class SdaException extends RuntimeException {
+
   public SdaException() {
     super();
   }

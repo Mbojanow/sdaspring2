@@ -13,6 +13,6 @@ public class UserMapper {
 
   public User userFormToUser(final UserForm userForm) {
     return new User(userForm.getUsername(), userForm.getEmail(),
-        userForm.getPassword(), List.of());
+        userForm.getPassword(), List.of(), List.of());
   }
 }

@@ -6,7 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +30,12 @@ public class User {
   @Column(name = "password")
   private String password;
 
-  @OneToMany
-  @JoinColumn(name = "user_id")
+  @Transient
+  private List<Role> nonAssignedRoles;
+
+  @ManyToMany
+  @JoinTable(name = "user_to_roles",
+    joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "username"),
+    inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "name"))
   private List<Role> roles;
 }

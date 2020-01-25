@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import pl.sdacademy.springdemo.domain.User;
 import pl.sdacademy.springdemo.model.UserForm;
+import pl.sdacademy.springdemo.services.RoleService;
 import pl.sdacademy.springdemo.services.UserService;
 
 @Controller
@@ -28,14 +27,17 @@ public class UserController {
   private static final String USERS_TEMPLATE_PATH = "users";
 
   private final UserService userService;
+  private final RoleService roleService;
 
-  public UserController(final UserService userService) {
+  public UserController(final UserService userService, final RoleService roleService) {
     this.userService = userService;
+    this.roleService = roleService;
   }
 
   @GetMapping
   public String displayUsers(final ModelMap modelMap) {
     final List<User> allUsers = userService.getAllUsers();
+    allUsers.forEach(user -> user.setNonAssignedRoles(roleService.getUnassignedRoles(user)));
     modelMap.addAttribute(MODEL_USERS_ATTRIBUTE, allUsers);
     modelMap.addAttribute(MODEL_USER_FORM, new UserForm());
     return USERS_TEMPLATE_PATH;
@@ -53,6 +55,14 @@ public class UserController {
     return displayUsers(modelMap);
 //    return "redirect:users";
 //    return new RedirectView(USERS_TEMPLATE_PATH);
+  }
+
+  @PostMapping("{username}/roles/{rolename}")
+  public String addRoleToUser(@PathVariable("username") final String username,
+                              @PathVariable("rolename") final String rolename,
+                              final ModelMap modelMap) {
+    userService.addRoleToUser(username, rolename);
+    return displayUsers(modelMap);
   }
 
 }
