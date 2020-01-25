@@ -1,21 +1,43 @@
 package pl.sdacademy.springdemo.configuration;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import pl.sdacademy.springdemo.services.AppUserDetailsService;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+  private final AppUserDetailsService appUserDetailsService;
+
+  public SecurityConfig(final AppUserDetailsService appUserDetailsService) {
+    this.appUserDetailsService = appUserDetailsService;
+  }
 
   @Override
   protected void configure(final HttpSecurity http) throws Exception {
     http.authorizeRequests()
         .antMatchers("/**").authenticated()
-        .antMatchers("/login").permitAll()
+        .antMatchers("/login", "/h2**").permitAll()
         .and()
         .formLogin()
         .and()
         .csrf().disable()
         .headers().frameOptions().disable();
+  }
+
+  @Override
+  public UserDetailsService userDetailsServiceBean() throws Exception {
+    return appUserDetailsService;
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 }

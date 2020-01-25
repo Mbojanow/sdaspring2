@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -33,7 +34,7 @@ public class User {
   @Transient
   private List<Role> nonAssignedRoles;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "user_to_roles",
     joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "username"),
     inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "name"))

@@ -3,6 +3,7 @@ package pl.sdacademy.springdemo.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +20,14 @@ public class UserService {
   private final UserRepository userRepository;
   private final UserMapper userMapper;
   private final RoleService roleService;
+  private final PasswordEncoder passwordEncoder;
 
-  public UserService(final UserRepository userRepository, final UserMapper userMapper, final RoleService roleService) {
+  public UserService(final UserRepository userRepository, final UserMapper userMapper, final RoleService roleService,
+                     final PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.userMapper = userMapper;
     this.roleService = roleService;
+    this.passwordEncoder = passwordEncoder;
   }
 
   public List<User> getAllUsers() {
@@ -63,7 +67,7 @@ public class UserService {
     final User user = userRepository.findById(username)
         .orElseThrow(() -> new SdaException("Cannot update non existing user"));
     user.setEmail(userForm.getEmail());
-    user.setPassword(userForm.getPassword());
+    user.setPassword(passwordEncoder.encode(userForm.getPassword()));
     userRepository.save(user);
   }
 }

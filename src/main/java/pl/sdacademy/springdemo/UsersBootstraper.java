@@ -3,6 +3,7 @@ package pl.sdacademy.springdemo;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,10 +18,13 @@ public class UsersBootstraper implements CommandLineRunner {
 
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
+  private final PasswordEncoder passwordEncoder;
 
-  public UsersBootstraper(final UserRepository userRepository, final RoleRepository roleRepository) {
+  public UsersBootstraper(final UserRepository userRepository, final RoleRepository roleRepository,
+                          final PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
@@ -34,7 +38,8 @@ public class UsersBootstraper implements CommandLineRunner {
     final Role roleOther = new Role("ROLE_OTHER");
     roleRepository.save(roleOther);
 
-    final User user = new User("admin", "admin@admins.com", "admin", List.of(),
+    final User user = new User("admin", "admin@admins.com",
+        passwordEncoder.encode("admin"), List.of(),
         List.of(role));
     userRepository.save(user);
   }
