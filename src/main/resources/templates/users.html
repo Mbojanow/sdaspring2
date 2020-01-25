@@ -9,6 +9,9 @@
     <div class="users">
       <div th:each="user : ${users}">
         <p th:text="'User name is ' + ${user.username} + ' and email is ' + ${user.email}"></p>
+        <div th:each="role: ${user.roles}">
+          <p th:text="'Role granted ' + ${role.name}"></p>
+        </div>
         <form method="post" th:action="@{/users/remove/__${user.username}__}">
           <button type="submit">DELETE FOREVER</button>
         </form>
