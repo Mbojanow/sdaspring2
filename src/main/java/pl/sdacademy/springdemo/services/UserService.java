@@ -55,4 +55,15 @@ public class UserService {
       }
     }
   }
+
+  public void updateUser(final UserForm userForm, final String username) {
+    if (!userForm.getUsername().equals(username)) {
+      throw new SdaException("You filthy hacker! That's not the same user!");
+    }
+    final User user = userRepository.findById(username)
+        .orElseThrow(() -> new SdaException("Cannot update non existing user"));
+    user.setEmail(userForm.getEmail());
+    user.setPassword(userForm.getPassword());
+    userRepository.save(user);
+  }
 }

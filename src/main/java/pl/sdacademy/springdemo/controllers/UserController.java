@@ -25,6 +25,7 @@ public class UserController {
   private static final String MODEL_USER_FORM = "userForm";
 
   private static final String USERS_TEMPLATE_PATH = "users";
+  private static final String USERS_EDIT_TEMPLATE_PATH = "users-edit";
 
   private final UserService userService;
   private final RoleService roleService;
@@ -65,4 +66,17 @@ public class UserController {
     return displayUsers(modelMap);
   }
 
+  @GetMapping("/{username}/edit")
+  public String showEditPage(@PathVariable("username") final String username, final ModelMap modelMap) {
+    modelMap.addAttribute(MODEL_USER_FORM, UserForm.builder().username(username).build());
+    return USERS_EDIT_TEMPLATE_PATH;
+  }
+
+  @PostMapping("/{username}/edit")
+  public String updateUser(@Valid @ModelAttribute final UserForm userForm,
+                           @PathVariable("username") final String username,
+                           final ModelMap modelMap) {
+    userService.updateUser(userForm, username);
+    return displayUsers(modelMap);
+  }
 }
