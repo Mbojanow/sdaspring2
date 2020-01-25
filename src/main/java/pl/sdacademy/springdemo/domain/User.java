@@ -34,7 +34,7 @@ public class User {
   @Transient
   private List<Role> nonAssignedRoles;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @ManyToMany
   @JoinTable(name = "user_to_roles",
     joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "username"),
     inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "name"))
