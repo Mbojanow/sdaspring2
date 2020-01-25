@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,12 +45,14 @@ public class UserController {
     return USERS_TEMPLATE_PATH;
   }
 
+  @Secured("ROLE_ADMIN")
   @PostMapping(path = "/add")
   public String saveUser(@Valid @ModelAttribute final UserForm userForm, final ModelMap modelMap) {
     userService.createUser(userForm);
     return displayUsers(modelMap);
   }
 
+  @Secured("ROLE_ADMIN")
   @PostMapping("/remove/{username}")
   public String deleteUser(@PathVariable("username") final String username, final ModelMap modelMap) {
     userService.deleteUser(username);
@@ -58,6 +61,7 @@ public class UserController {
 //    return new RedirectView(USERS_TEMPLATE_PATH);
   }
 
+  @Secured("ROLE_ADMIN")
   @PostMapping("{username}/roles/{rolename}")
   public String addRoleToUser(@PathVariable("username") final String username,
                               @PathVariable("rolename") final String rolename,
@@ -72,6 +76,7 @@ public class UserController {
     return USERS_EDIT_TEMPLATE_PATH;
   }
 
+  @Secured("ROLE_ADMIN")
   @PostMapping("/{username}/edit")
   public String updateUser(@Valid @ModelAttribute final UserForm userForm,
                            @PathVariable("username") final String username,

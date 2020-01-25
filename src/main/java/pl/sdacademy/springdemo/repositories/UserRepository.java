@@ -14,6 +14,6 @@ import pl.sdacademy.springdemo.domain.User;
 public interface UserRepository extends JpaRepository<User, String> {
   Long countAllByUsernameOrEmail(@NonNull String username, @NonNull String email);
 
-  @Query("SELECT u FROM users u join fetch u.roles WHERE u.username = :username")
+  @Query("SELECT u FROM users u left join fetch u.roles WHERE u.username = :username")
   Optional<User> findByUsernameWithRoles(@Param("username")String username);
 }
