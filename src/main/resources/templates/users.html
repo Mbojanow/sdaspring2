@@ -9,6 +9,9 @@
     <div class="users">
       <div th:each="user : ${users}">
         <p th:text="'User name is ' + ${user.username} + ' and email is ' + ${user.email}"></p>
+        <form method="post" th:action="@{/users/remove/__${user.username}__}">
+          <button type="submit">DELETE FOREVER</button>
+        </form>
       </div>
     </div>
   </div>
@@ -16,16 +19,16 @@
   <div class="user-form">
     <form method="post" th:object="${userForm}" th:action="@{/users/add}">
       <label for="username">Username</label>
-      <input id="username" th:value="*{username}"/>
+      <input id="username" th:field="*{username}"/>
 
       <label for="email">Email</label>
-      <input id="email" th:value="*{email}"/>
+      <input id="email" th:field="*{email}"/>
 
       <label for="password">Password</label>
-      <input id="password" type="password" th:value="*{password}"/>
+      <input id="password" type="password" th:field="*{password}"/>
 
       <label for="passwordConfirmation">Confirm Password</label>
-      <input id="passwordConfirmation" th:value="*{confirmPassword}"/>
+      <input id="passwordConfirmation" type="password" th:field="*{confirmPassword}"/>
 
       <button type="submit">Create User</button>
     </form>

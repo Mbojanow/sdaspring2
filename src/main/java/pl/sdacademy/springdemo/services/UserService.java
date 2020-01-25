@@ -35,4 +35,8 @@ public class UserService {
     final User user = userMapper.userFormToUser(userForm);
     return userRepository.save(user);
   }
+
+  public void deleteUser(final String username) {
+    userRepository.deleteById(username);
+  }
 }
