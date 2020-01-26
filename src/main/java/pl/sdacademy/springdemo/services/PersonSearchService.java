@@ -28,33 +28,25 @@ public class PersonSearchService {
     final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     final CriteriaQuery<Person> query = criteriaBuilder.createQuery(Person.class);
     final Root<Person> root = query.from(Person.class);
-    Predicate predicate = null;
+    final List<Predicate> predicates = new ArrayList<>();
     if (username != null) {
-      final Predicate pred = criteriaBuilder.equal(root.get("username"), username);
-      if (isOrConjuction) {
-        predicate = criteriaBuilder.or(pred);
-      } else {
-        predicate = criteriaBuilder.and(pred);
-      }
+      predicates.add(criteriaBuilder.equal(root.get("username"), username));
     }
 
     if (age != null) {
-      final Predicate pred = criteriaBuilder.equal(root.get("age"), age);
-      if (isOrConjuction) {
-        predicate = criteriaBuilder.or(pred);
-      } else {
-        predicate = criteriaBuilder.and(pred);
-      }
+      predicates.add(criteriaBuilder.equal(root.get("age"), age));
     }
 
     if (pesel != null) {
-      final Predicate pred = criteriaBuilder.equal(root.get("pesel"), pesel);
-      if (isOrConjuction) {
-        predicate = criteriaBuilder.or(pred);
-      } else {
-        predicate = criteriaBuilder.and(pred);
-      }
+      predicates.add(criteriaBuilder.equal(root.get("pesel"), pesel));
     }
+    Predicate predicate = null;
+    if (isOrConjuction) {
+        predicate = criteriaBuilder.or(predicates.toArray(new Predicate[0]));
+    } else {
+        predicate = criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+    }
+
     final CriteriaQuery<Person> buildQuery = query.select(root).where(predicate);
     return entityManager.createQuery(buildQuery).getResultList();
   }
