@@ -27,7 +27,7 @@ public class InitialUsersBootstrap implements CommandLineRunner {
   public void run(final String... args) throws Exception {
     final Role adminRole = roleRepository.save(new Role("ADMIN"));
     final var user = new User("admin", "admin@sda.pl", "Admin_123",
-        List.of(adminRole));
+        List.of(adminRole), List.of());
     userRepository.save(user);
   }
 }

@@ -14,6 +14,12 @@
         <div class="user-roles" th:each="role : ${user.getRoles()}">
           <p th:text="'User has role ' + ${role.getName()}"></p>
         </div>
+
+        <form method="post" th:each="possibleRole : ${user.getPossibleRoles()}"
+              th:action="@{/users/__${user.getUsername()}__/roles/__${possibleRole}__}">
+          <button type="submit" th:text="'Add role ' + ${possibleRole}"></button>
+        </form>
+
         <form method="post" th:action="@{/users/__${user.getUsername()}__}">
           <button type="submit">Delete this user</button>
         </form>
