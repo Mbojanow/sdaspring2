@@ -1,0 +1,27 @@
+.main {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  width: 80%;
+}
+
+.users {
+  padding: 2rem;
+}
+
+.user {
+  border: 1px black solid;
+  padding: 10px;
+}
+
+.users-form {
+  margin: 2rem;
+  border: 1px black solid;
+}
+
+.create-form {
+  margin: 2rem;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}

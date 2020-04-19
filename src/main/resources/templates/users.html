@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Users</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
   <div class="main">
@@ -14,7 +15,7 @@
     </div>
 
     <div class="users-form">
-      <form method="post" th:object="${userForm}" th:action="@{/users}">
+      <form class="create-form" method="post" th:object="${userForm}" th:action="@{/users}">
         <label for="username">
           Username:
           <input id="username" type="text" th:field="*{username}">
