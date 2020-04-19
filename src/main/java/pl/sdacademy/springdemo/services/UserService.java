@@ -26,11 +26,11 @@ public class UserService {
   private final PasswordEncoder passwordEncoder;
 
   public UserService(final UserRepository userRepository, final RolesConfiguration rolesConfiguration,
-                     final RoleRepository roleRepository/*, final PasswordEncoder passwordEncoder*/) {
+                     final RoleRepository roleRepository, final PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.rolesConfiguration = rolesConfiguration;
     this.roleRepository = roleRepository;
-    this.passwordEncoder = null;
+    this.passwordEncoder = passwordEncoder;
   }
 
   public User getUserByUsername(final String username) {
