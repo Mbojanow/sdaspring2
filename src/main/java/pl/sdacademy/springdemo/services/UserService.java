@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +23,19 @@ public class UserService {
   private final UserRepository userRepository;
   private final RolesConfiguration rolesConfiguration;
   private final RoleRepository roleRepository;
+  private final PasswordEncoder passwordEncoder;
 
   public UserService(final UserRepository userRepository, final RolesConfiguration rolesConfiguration,
-                     final RoleRepository roleRepository) {
+                     final RoleRepository roleRepository/*, final PasswordEncoder passwordEncoder*/) {
     this.userRepository = userRepository;
     this.rolesConfiguration = rolesConfiguration;
     this.roleRepository = roleRepository;
+    this.passwordEncoder = null;
+  }
+
+  public User getUserByUsername(final String username) {
+    return userRepository.findById(username)
+        .orElseThrow(() -> new UserException("User with name " + username + " does not exist"));
   }
 
   public List<User> getAllUsers() {
@@ -52,7 +60,8 @@ public class UserService {
   }
 
   public User createUser(final UserForm userForm) {
-    final User user = new User(userForm.getUsername(), userForm.getEmail(), userForm.getPassword(), List.of(), List.of());
+    final User user = new User(userForm.getUsername(), userForm.getEmail(),
+        passwordEncoder.encode(userForm.getPassword()), List.of(), List.of());
     return userRepository.save(user);
   }
 
