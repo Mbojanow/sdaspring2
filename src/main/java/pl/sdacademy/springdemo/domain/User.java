@@ -2,8 +2,10 @@ package pl.sdacademy.springdemo.domain;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -27,7 +29,7 @@ public class User {
   @Column(name = "password")
   private String password;
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.EAGER/*, cascade = { CascadeType.MERGE, CascadeType.PERSIST }*/)
   @JoinColumn(name = "user_id")
   private List<Role> roles;
 }

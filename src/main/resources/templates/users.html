@@ -11,6 +11,9 @@
       <div class="user" th:each="user : ${users}">
         <p th:text="'User name is : ' + ${user.getUsername()}"></p>
         <p th:text="'User has email ' + ${user.getEmail()}"></p>
+        <div class="user-roles" th:each="role : ${user.getRoles()}">
+          <p th:text="'User has role ' + ${role.getName()}"></p>
+        </div>
         <form method="post" th:action="@{/users/__${user.getUsername()}__}">
           <button type="submit">Delete this user</button>
         </form>

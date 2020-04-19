@@ -41,7 +41,7 @@ public class UserController {
 
   @PostMapping(path = "/{username}")
   public String handleUserDelete(@PathVariable(name = "username") final String username) {
-
+    userService.deleteUser(username);
     return "redirect:/users";
   }
 }

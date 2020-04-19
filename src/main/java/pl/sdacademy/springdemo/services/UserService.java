@@ -1,6 +1,7 @@
 package pl.sdacademy.springdemo.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,11 @@ public class UserService {
   }
 
   public void deleteUser(final String username) {
-
+    final Optional<User> userOptional = userRepository.findById(username);
+    if (userOptional.isPresent()) {
+      userRepository.deleteById(username);
+    } else {
+      throw new UserException("Cannot delete user that does not exit");
+    }
   }
 }
