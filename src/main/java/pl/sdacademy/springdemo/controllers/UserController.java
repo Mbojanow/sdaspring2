@@ -44,4 +44,11 @@ public class UserController {
     userService.deleteUser(username);
     return "redirect:/users";
   }
+
+  //{/users/__${user.getUsername()}__/roles/__${possibleRole}__}
+  @PostMapping(path = "/{username}/roles/{rolename}")
+  public String handleRoleAdd(@PathVariable final String username, @PathVariable final String rolename) {
+    userService.addRoleToUser(username, rolename);
+    return "redirect:/users";
+  }
 }
