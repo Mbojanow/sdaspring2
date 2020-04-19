@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Users</title>
+</head>
+<body>
+  <div class="main">
+    <div class="users">
+      <div class="user" th:each="user : ${users}">
+        <p th:text="'User name is : ' + ${user.getUsername()}"></p>
+        <p th:text="'User has email ' + ${user.getEmail()}"></p>
+      </div>
+    </div>
+
+    <div class="users-form">
+      <form method="post" th:object="${userForm}" th:action="@{/users}">
+
+      </form>
+    </div>
+  </div>
+</body>
+</html>
