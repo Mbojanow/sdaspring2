@@ -15,7 +15,27 @@
 
     <div class="users-form">
       <form method="post" th:object="${userForm}" th:action="@{/users}">
+        <label for="username">
+          Username:
+          <input id="username" type="text" th:field="*{username}">
+        </label>
 
+        <label for="email">
+          Email:
+          <input id="email" type="text" th:field="*{email}">
+        </label>
+
+        <label for="password">
+          Password:
+          <input id="password" type="password" th:field="*{password}">
+        </label>
+
+        <label for="confirmPassword">
+          Confirm password:
+          <input id="confirmPassword" type="password" th:field="*{confirmPassword}">
+        </label>
+
+        <button type="submit">Create user</button>
       </form>
     </div>
   </div>

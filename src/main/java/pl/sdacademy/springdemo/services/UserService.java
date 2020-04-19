@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pl.sdacademy.springdemo.domain.User;
+import pl.sdacademy.springdemo.model.UserForm;
 import pl.sdacademy.springdemo.repositories.UserRepository;
 
 @Service
@@ -22,5 +23,9 @@ public class UserService {
     return userRepository.findAll();
   }
 
+  public User createUser(final UserForm userForm) {
+    final User user = new User(userForm.getUsername(), userForm.getEmail(), userForm.getPassword(), List.of());
+    return userRepository.save(user);
+  }
 
 }
