@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import pl.sdacademy.springdemo.model.UserForm;
+import pl.sdacademy.springdemo.services.UserException;
 import pl.sdacademy.springdemo.services.UserService;
 
 @Controller
@@ -34,7 +36,12 @@ public class UserController {
   }
 
   @PostMapping
-  public String handleUserForm(@Valid @ModelAttribute(name = USER_FORM_MODEL_ATTR) final UserForm userForm) {
+  public String handleUserForm(@Valid @ModelAttribute(name = USER_FORM_MODEL_ATTR) final UserForm userForm,
+                               final BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      //throw new UserException()
+      return "redirect:/error";
+    }
     userService.createUser(userForm);
     return "redirect:/users";
   }
